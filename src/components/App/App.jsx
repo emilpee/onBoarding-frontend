@@ -1,10 +1,15 @@
 import React from "react";
 import "./styles.scss";
+import { Login, Dashboard } from "../";
+import { Route, Switch } from "react-router-dom";
 
 const App = () => {
   return (
     <div className="container">
-      <h1>Hello</h1>
+      <Switch>
+        <Route path="/" exact component={Login} />
+        <Route path="/dashboard" exact component={Dashboard} />
+      </Switch>
     </div>
   );
 };
