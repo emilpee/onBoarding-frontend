@@ -5,7 +5,7 @@ const Login = props => {
   const { history } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ email, password });
 
   useEffect(() => {}, []);
 
@@ -27,15 +27,15 @@ const Login = props => {
   };
 
   return (
-    <main className="login ui container">
+    <main className="login container">
       <h1>onBoarding</h1>
-      <form onSubmit={handleFormSubmit} action="">
+      <form onSubmit={handleFormSubmit} className="ui form">
         <h2>Sign in</h2>
-        <div className="input">
+        <div className="input field">
           <label htmlFor="email">Email</label>
           <input onChange={handleInputChange} type="email" id="email"></input>
         </div>
-        <div className="input">
+        <div className="input field">
           <label htmlFor="password">Password</label>
           <input
             onChange={handleInputChange}
@@ -43,8 +43,10 @@ const Login = props => {
             id="password"
           ></input>
         </div>
-        <div className="input">
-          <button type="submit">Login</button>
+        <div className="input field">
+          <button className="ui button" type="submit">
+            Login
+          </button>
         </div>
       </form>
     </main>
