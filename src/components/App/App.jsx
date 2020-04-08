@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 
 const App = () => {
   return (
-    <div className="container">
+    <div>
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/dashboard" exact component={Dashboard} />
