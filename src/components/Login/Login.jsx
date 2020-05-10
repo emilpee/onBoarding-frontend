@@ -18,12 +18,18 @@ const Login = () => {
   return (
     <main className="login">
       <h1>onBoarding</h1>
-      <p>
+      <p className="text-center">
         Welcome! In order to use this application, you must connect to Board
         Game Atlas. Click the button to authenticate.
       </p>
 
-      <Button onClick={handleConnectClick}>Connect to BGA</Button>
+      <Button
+        className="btn"
+        variant="primary-button"
+        onClick={handleConnectClick}
+      >
+        Connect to BGA
+      </Button>
     </main>
   );
 };
