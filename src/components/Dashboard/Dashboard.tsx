@@ -3,7 +3,7 @@ import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 
 const Dashboard = () => {
-  const [gamesData, setgamesData] = useState([]);
+  const [gamesData, setgamesData] = useState<object[]>([]);
   const [user, setUser] = useState(null);
   const query = window.location.search.substring(1);
   const token = query.split("access_token=")[1];
