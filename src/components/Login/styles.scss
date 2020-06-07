@@ -2,10 +2,14 @@
 
 .login {
   align-items: center;
-  background: $bgGradient;
-  color: $white;
+  background: linear-gradient(
+    to top,
+    theme-color("primary"),
+    theme-color("darkgray")
+  );
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
   justify-content: center;
 }

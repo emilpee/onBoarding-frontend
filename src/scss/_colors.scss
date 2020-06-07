@@ -1,11 +1,14 @@
-// Main colors
-$main: #c94d6b;
-$secondary: #fc6e47;
-$detail: #63524e;
-$black: #222;
-$darkgray: rgb(85, 85, 85);
-$gray: rgb(175, 175, 175);
-$white: #fff;
+@import "functions";
 
-// Gradients
-$bgGradient: linear-gradient(to top, $main, $black);
+$body-color: #fff;
+
+$theme-colors: (
+  "primary": #c94d6b,
+  "secondary": #fc6e47,
+  "primary-button": #4260c9,
+  "detail": #63524e,
+  "black": #111,
+  "darkgray": rgb(85, 85, 85),
+  "gray": #ddd,
+  "white": #fff,
+);
