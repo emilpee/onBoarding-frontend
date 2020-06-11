@@ -2,9 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 
+interface GameObject {
+  id: string;
+  name: string;
+  names: Array<string>;
+  description: string;
+  categories: Category[];
+  year_published: number;
+}
+
+interface Category {
+  id: number;
+}
+
+interface User {
+  id: string;
+  username: string;
+  img: string;
+}
+
 const Dashboard = () => {
-  const [gamesData, setgamesData] = useState<object[]>([]);
-  const [user, setUser] = useState(null);
+  const [gamesData, setgamesData] = useState<GameObject[]>([]);
+  const [user, setUser] = useState<User>(null);
   const query = window.location.search.substring(1);
   const token = query.split("access_token=")[1];
 
@@ -17,7 +36,7 @@ const Dashboard = () => {
       .then(({ data }) => {
         setUser(data.user);
       });
-  });
+  }, []);
 
   useEffect(() => {
     axios
@@ -27,7 +46,7 @@ const Dashboard = () => {
       .then(({ data }) => {
         setgamesData(data.games);
       });
-  }, []);
+  }, [gamesData]);
 
   return (
     <div>
@@ -35,7 +54,7 @@ const Dashboard = () => {
       {user !== null && <h3>Welcome {user.username}!</h3>}
       <ul>
         {gamesData.length > 0 &&
-          gamesData.map((game) => {
+          gamesData.map((game: GameObject) => {
             return <li key={game.id}>{game.name}</li>;
           })}
       </ul>
