@@ -1,14 +1,14 @@
-@import "functions";
-
-$body-color: #333;
+@import 'functions';
 
 $theme-colors: (
-  "primary": #c94d6b,
-  "secondary": #fc6e47,
-  "primary-button": #4260c9,
-  "detail": #63524e,
-  "black": #111,
-  "darkgray": rgb(85, 85, 85),
-  "gray": #ddd,
-  "white": #fff,
+    'primary': #c94d6b,
+    'secondary': #fc6e47,
+    'detail': #63524e,
+    'black': #111,
+    'darkgray': rgb(85, 85, 85),
+    'gray': #ddd,
+    'white': #fff,
 );
+
+$body-color: #fff;
+$body-bg: rgba(252, 110, 71, 0.85);
