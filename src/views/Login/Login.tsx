@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { CLIENT_ID } from '../../boardgameatlas.config'
-import { Button, Form, Container, Row } from 'react-bootstrap'
+import { Button, Container, Row } from 'react-bootstrap'
 import './styles.scss'
 
 const Login: FunctionComponent = () => {
