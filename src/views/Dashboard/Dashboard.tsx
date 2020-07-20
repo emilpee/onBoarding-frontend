@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FunctionComponent } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 import { Header } from "../../components/";
@@ -6,7 +6,7 @@ import { Header } from "../../components/";
 interface GameObject {
   id: string;
   name: string;
-  names: Array<string>;
+  names: string[];
   description: string;
   categories: Category[];
   year_published: number;
@@ -22,7 +22,7 @@ interface User {
   img: string;
 }
 
-const Dashboard = () => {
+const Dashboard: FunctionComponent<GameObject> = () => {
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
   const [user, setUser] = useState<User>(null);
   const query = window.location.search.substring(1);
@@ -51,8 +51,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Header />
-      {user !== null && <h3>Welcome {user.username}!</h3>}
+      <Header user={user} />
       <ul>
         {gamesData.length > 0 &&
           gamesData.map((game: GameObject) => {
