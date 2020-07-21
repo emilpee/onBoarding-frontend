@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { User } from "../../views/Dashboard";
 import {
   Navbar,
   Nav,
@@ -9,7 +10,11 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-const Header = (props) => {
+interface HeaderProps {
+  user: User;
+}
+
+const Header: FunctionComponent<HeaderProps> = (props) => {
   const { user } = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
