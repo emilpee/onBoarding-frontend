@@ -16,13 +16,13 @@ interface Category {
   id: number;
 }
 
-interface User {
-  id: string;
-  username: string;
-  img: string;
+export interface User {
+  id?: string;
+  username?: string;
+  img?: string;
 }
 
-const Dashboard: FunctionComponent<GameObject> = () => {
+const Dashboard: FunctionComponent = () => {
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
   const [user, setUser] = useState<User>(null);
   const query = window.location.search.substring(1);
