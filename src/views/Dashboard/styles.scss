@@ -1,0 +1,13 @@
+@import "../../scss/";
+
+body {
+  color: theme-color("black");
+
+  .container-fluid {
+    align-items: center;
+    background: theme-color("white");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
