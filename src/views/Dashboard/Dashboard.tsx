@@ -2,29 +2,18 @@ import React, { useEffect, useState, FunctionComponent } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 import { Header } from "../../components/";
+import { GameObject, User } from "../../interfaces";
+import { Container } from "react-bootstrap";
+import "./styles.scss";
 
-interface GameObject {
-  id: string;
-  name: string;
-  names: string[];
-  description: string;
-  categories: Category[];
-  year_published: number;
+interface DashboardProps {
+  user: User;
 }
 
-interface Category {
-  id: number;
-}
-
-export interface User {
-  id?: string;
-  username?: string;
-  img?: string;
-}
-
-const Dashboard: FunctionComponent = () => {
+const Dashboard: FunctionComponent<DashboardProps> = (props) => {
+  const { user = null } = props;
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
-  const [user, setUser] = useState<User>(null);
+  const [signedInUser, setSignedInUser] = useState<User>(user);
   const query = window.location.search.substring(1);
   const token = query.split("access_token=")[1];
 
@@ -35,7 +24,7 @@ const Dashboard: FunctionComponent = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(({ data }) => {
-        setUser(data.user);
+        setSignedInUser(data.user);
       });
   }, [token]);
 
@@ -50,15 +39,17 @@ const Dashboard: FunctionComponent = () => {
   }, [gamesData]);
 
   return (
-    <div>
-      <Header user={user} />
-      <ul>
-        {gamesData.length > 0 &&
-          gamesData.map((game: GameObject) => {
-            return <li key={game.id}>{game.name}</li>;
-          })}
-      </ul>
-    </div>
+    <>
+      <Header user={signedInUser} />
+      <Container className="container" fluid>
+        <ul>
+          {gamesData.length > 0 &&
+            gamesData.map((game: GameObject) => {
+              return <li key={game.id}>{game.name}</li>;
+            })}
+        </ul>
+      </Container>
+    </>
   );
 };
 

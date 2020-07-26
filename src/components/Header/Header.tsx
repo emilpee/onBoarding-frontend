@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { User } from "../../views/Dashboard";
+import { User } from "../../interfaces";
 import {
   Navbar,
   Nav,
@@ -25,7 +25,7 @@ const Header: FunctionComponent<HeaderProps> = (props) => {
   }, [user]);
 
   return (
-    <Navbar sticky="top" bg="light" expand="lg">
+    <Navbar expand="md" sticky="top" bg="light">
       <Navbar.Brand href="#">onBoarding</Navbar.Brand>
       <Navbar.Collapse className="justify-content-between">
         <Nav>
@@ -40,19 +40,19 @@ const Header: FunctionComponent<HeaderProps> = (props) => {
           </NavDropdown>
         </Nav>
         <Nav>
+          {isLoading ? (
+            <Spinner animation="border" variant="primary" />
+          ) : (
+            <span>{user.username}</span>
+          )}
+        </Nav>
+        <Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
             <Button variant="primary">Search</Button>
           </Form>
         </Nav>
       </Navbar.Collapse>
-      <Nav>
-        {isLoading ? (
-          <Spinner animation="border" variant="primary" />
-        ) : (
-          <span>{user.username}</span>
-        )}
-      </Nav>
     </Navbar>
   );
 };
