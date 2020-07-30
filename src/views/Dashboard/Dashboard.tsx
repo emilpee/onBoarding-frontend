@@ -13,20 +13,6 @@ interface DashboardProps {
 const Dashboard: FunctionComponent<DashboardProps> = (props) => {
   const { user = null } = props;
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
-  const [signedInUser, setSignedInUser] = useState<User>(user);
-  const query = window.location.search.substring(1);
-  const token = query.split("access_token=")[1];
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/https://www.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(({ data }) => {
-        setSignedInUser(data.user);
-      });
-  }, [token]);
 
   useEffect(() => {
     axios
@@ -40,7 +26,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
 
   return (
     <>
-      <Header user={signedInUser} />
+      <Header user={null} />
       <Container className="container" fluid>
         <ul>
           {gamesData.length > 0 &&
