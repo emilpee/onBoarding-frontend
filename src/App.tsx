@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, FunctionComponent, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,31 +12,36 @@ interface MyInterface {
   id: string;
 }
 
-interface test extends RouteComponentProps<any> {
+interface test extends RouteComponentProps {
   handleLogin: () => void;
 }
 
-const ProtectedRoute = ({ component: Component, user, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        user ? (
-          <Component {...rest} {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-            }}
-          />
-        )
-      }
-    />
-  );
-};
-
 const App: FunctionComponent<test> = (props) => {
   const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    const query = window.location.search.substring(1);
+    const token = query.split("access_token=")[1];
+
+    if (token) {
+      setUser(true);
+    }
+  }, [user]);
+
+  const ProtectedRoute = ({ component: Component, user, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          user ? (
+            <Component {...rest} {...props} />
+          ) : (
+            <Redirect to={{ pathname: "/login" }} />
+          )
+        }
+      />
+    );
+  };
 
   const handleLogin = (e): void => {
     e.preventDefault();
@@ -44,7 +49,7 @@ const App: FunctionComponent<test> = (props) => {
   };
 
   return (
-    <div className="container">
+    <>
       <Router>
         <Route
           exact
@@ -64,7 +69,7 @@ const App: FunctionComponent<test> = (props) => {
           component={Dashboard}
         />
       </Router>
-    </div>
+    </>
   );
 };
 
