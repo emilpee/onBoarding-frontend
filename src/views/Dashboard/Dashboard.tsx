@@ -7,12 +7,16 @@ import { Container } from "react-bootstrap";
 import "./styles.scss";
 
 interface DashboardProps {
+  handleLogin: (e: React.MouseEvent) => void;
   user: User;
 }
 
 const Dashboard: FunctionComponent<DashboardProps> = (props) => {
-  const { user = null } = props;
+  const { user, handleLogin } = props;
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
+  const [signedInUser, setSignedInUser] = useState<User>(null);
+  const query = window.location.search.substring(1);
+  const token = query.split("access_token=")[1];
 
   useEffect(() => {
     axios
@@ -24,9 +28,25 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
       });
   }, [gamesData]);
 
+  useEffect(() => {
+    let user = localStorage.getItem("user");
+    console.log(user);
+    if (user) {
+      axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://www.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(({ data }) => {
+          setSignedInUser(data.user);
+          localStorage.setItem("user", data.user);
+        });
+    }
+  }, [user, token]);
+
   return (
     <>
-      <Header user={null} />
+      <Header user={signedInUser} />
       <Container className="container" fluid>
         <ul>
           {gamesData.length > 0 &&

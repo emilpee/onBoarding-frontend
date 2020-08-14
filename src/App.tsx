@@ -8,25 +8,16 @@ import {
 import "./scss/index.scss";
 import { Login, Dashboard } from "./views";
 
-interface MyInterface {
-  id: string;
-}
-
-interface test extends RouteComponentProps {
+interface AppProps extends RouteComponentProps {
   handleLogin: () => void;
 }
 
-const App: FunctionComponent<test> = (props) => {
-  const [user, setUser] = useState(false);
+const App: FunctionComponent<AppProps> = (props) => {
+  const [user, setUser] = useState<boolean>(false);
+  const query = window.location.search.substring(1);
+  const token = query.split("access_token=")[1];
 
-  useEffect(() => {
-    const query = window.location.search.substring(1);
-    const token = query.split("access_token=")[1];
-
-    if (token) {
-      setUser(true);
-    }
-  }, [user]);
+  console.log(user);
 
   const ProtectedRoute = ({ component: Component, user, ...rest }) => {
     return (
@@ -45,21 +36,18 @@ const App: FunctionComponent<test> = (props) => {
 
   const handleLogin = (e): void => {
     e.preventDefault();
-    setUser(true);
+    localStorage.setItem("user", true.toString());
   };
 
   return (
     <>
       <Router>
+        <Route path="/" render={() => <Redirect to="/login" />} />
         <Route
           exact
           path="/login"
           render={(props) => (
-            <Login
-              {...props}
-              handleLogin={handleLogin}
-              user={user.toString()}
-            />
+            <Login handleLogin={handleLogin} {...props} user={user} />
           )}
         />
         <ProtectedRoute
