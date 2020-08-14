@@ -1,21 +1,22 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import { CLIENT_ID } from "../../boardgameatlas.config";
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import "./styles.scss";
 
 interface LoginProps {
-  user: any;
   handleLogin: (e: React.MouseEvent) => void;
 }
 
 const Login: FunctionComponent<LoginProps> = (props) => {
+  const { handleLogin } = props;
+
   const handleConnectClick = (e): void => {
     function generateUrlWithState() {
-      props.handleLogin(e);
+      handleLogin(e);
       const state = Math.random()
         .toString(36)
         .substring(7);
-      return `https://www.boardgameatlas.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&state=${state}&redirect_uri=http://localhost:8080/oauth`;
+      return `https://api.boardgameatlas.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&state=${state}&redirect_uri=http://localhost:8080/oauth`;
     }
     window.location.href = generateUrlWithState();
   };

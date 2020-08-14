@@ -7,12 +7,11 @@ import { Container } from "react-bootstrap";
 import "./styles.scss";
 
 interface DashboardProps {
-  handleLogin: (e: React.MouseEvent) => void;
   user: User;
 }
 
 const Dashboard: FunctionComponent<DashboardProps> = (props) => {
-  const { user, handleLogin } = props;
+  const { user } = props;
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
   const [signedInUser, setSignedInUser] = useState<User>(null);
   const query = window.location.search.substring(1);
@@ -21,7 +20,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
   useEffect(() => {
     axios
       .get(
-        `https://www.boardgameatlas.com/api/search?order_by=popularity&client_id=${CLIENT_ID}`
+        `https://api.boardgameatlas.com/api/search?order_by=popularity&client_id=${CLIENT_ID}`
       )
       .then(({ data }) => {
         setgamesData(data.games);
@@ -29,19 +28,15 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
   }, [gamesData]);
 
   useEffect(() => {
-    let user = localStorage.getItem("user");
-    console.log(user);
-    if (user) {
-      axios
-        .get(
-          `https://cors-anywhere.herokuapp.com/https://www.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then(({ data }) => {
-          setSignedInUser(data.user);
-          localStorage.setItem("user", data.user);
-        });
-    }
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://api.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(({ data }) => {
+        // TODO - set with db data.
+        setSignedInUser(data.user);
+      });
   }, [user, token]);
 
   return (

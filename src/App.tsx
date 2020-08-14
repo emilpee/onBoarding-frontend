@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -12,22 +12,17 @@ interface AppProps extends RouteComponentProps {
   handleLogin: () => void;
 }
 
-const App: FunctionComponent<AppProps> = (props) => {
-  const [user, setUser] = useState<boolean>(false);
-  const query = window.location.search.substring(1);
-  const token = query.split("access_token=")[1];
-
-  console.log(user);
-
+const App: FunctionComponent<AppProps> = () => {
   const ProtectedRoute = ({ component: Component, user, ...rest }) => {
     return (
       <Route
         {...rest}
         render={(props) =>
-          user ? (
+          sessionStorage.getItem("loggedIn") === "true" ? (
             <Component {...rest} {...props} />
           ) : (
-            <Redirect to={{ pathname: "/login" }} />
+            // TODO - remove redirect if signed in
+            <Redirect to="/login" />
           )
         }
       />
@@ -36,23 +31,21 @@ const App: FunctionComponent<AppProps> = (props) => {
 
   const handleLogin = (e): void => {
     e.preventDefault();
-    localStorage.setItem("user", true.toString());
+    sessionStorage.setItem("loggedIn", true.toString());
   };
 
   return (
     <>
       <Router>
-        <Route path="/" render={() => <Redirect to="/login" />} />
+        <Route path="/" exact render={() => <Redirect to="/login" />} />
         <Route
           exact
           path="/login"
-          render={(props) => (
-            <Login handleLogin={handleLogin} {...props} user={user} />
-          )}
+          render={(props) => <Login handleLogin={handleLogin} {...props} />}
         />
         <ProtectedRoute
-          user={user}
           exact
+          user={sessionStorage.getItem("loggedIn")}
           path="/dashboard"
           component={Dashboard}
         />
