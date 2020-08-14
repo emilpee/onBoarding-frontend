@@ -1,64 +1,57 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { CLIENT_ID } from '../../boardgameatlas.config'
-import { Header } from '../../components/'
+import React, { useEffect, useState, FunctionComponent } from "react";
+import axios from "axios";
+import { CLIENT_ID } from "../../boardgameatlas.config";
+import { Header } from "../../components/";
+import { GameObject, User } from "../../interfaces";
+import { Container } from "react-bootstrap";
+import "./styles.scss";
 
-interface GameObject {
-    id: string
-    name: string
-    names: Array<string>
-    description: string
-    categories: Category[]
-    year_published: number
+interface DashboardProps {
+  user: User;
 }
 
-interface Category {
-    id: number
-}
+const Dashboard: FunctionComponent<DashboardProps> = (props) => {
+  const { user } = props;
+  const [gamesData, setgamesData] = useState<GameObject[]>([]);
+  const [signedInUser, setSignedInUser] = useState<User>(null);
+  const query = window.location.search.substring(1);
+  const token = query.split("access_token=")[1];
 
-interface User {
-    id: string
-    username: string
-    img: string
-}
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.boardgameatlas.com/api/search?order_by=popularity&client_id=${CLIENT_ID}`
+      )
+      .then(({ data }) => {
+        setgamesData(data.games);
+      });
+  }, [gamesData]);
 
-const Dashboard = () => {
-    const [gamesData, setgamesData] = useState<GameObject[]>([])
-    const [user, setUser] = useState<User>(null)
-    const query = window.location.search.substring(1)
-    const token = query.split('access_token=')[1]
+  useEffect(() => {
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://api.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(({ data }) => {
+        // TODO - set with db data.
+        setSignedInUser(data.user);
+      });
+  }, [user, token]);
 
-    useEffect(() => {
-        axios
-            .get(
-                `https://cors-anywhere.herokuapp.com/https://www.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
-                { headers: { Authorization: `Bearer ${token}` } },
-            )
-            .then(({ data }) => {
-                setUser(data.user)
-            })
-    }, [token])
+  return (
+    <>
+      <Header user={signedInUser} />
+      <Container className="container" fluid>
+        <ul>
+          {gamesData.length > 0 &&
+            gamesData.map((game: GameObject) => {
+              return <li key={game.id}>{game.name}</li>;
+            })}
+        </ul>
+      </Container>
+    </>
+  );
+};
 
-    useEffect(() => {
-        axios
-            .get(`https://www.boardgameatlas.com/api/search?order_by=popularity&client_id=${CLIENT_ID}`)
-            .then(({ data }) => {
-                setgamesData(data.games)
-            })
-    }, [gamesData])
-
-    return (
-        <div>
-            <Header />
-            {user !== null && <h3>Welcome {user.username}!</h3>}
-            <ul>
-                {gamesData.length > 0 &&
-                    gamesData.map((game: GameObject) => {
-                        return <li key={game.id}>{game.name}</li>
-                    })}
-            </ul>
-        </div>
-    )
-}
-
-export default Dashboard
+export default Dashboard;
