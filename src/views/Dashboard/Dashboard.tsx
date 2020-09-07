@@ -1,9 +1,10 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
-import { Header } from "../../components/";
+import { Header, Footer } from "../../components/";
 import { GameObject, User } from "../../interfaces";
-import { Container } from "react-bootstrap";
+import { UserContext } from "../../context/userContext";
+import { Container, Spinner } from "react-bootstrap";
 import "./styles.scss";
 
 interface DashboardProps {
@@ -16,6 +17,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
   const [signedInUser, setSignedInUser] = useState<User>(null);
   const query = window.location.search.substring(1);
   const token = query.split("access_token=")[1];
+  const id = query.split("user=")[1];
 
   useEffect(() => {
     axios
@@ -25,32 +27,36 @@ const Dashboard: FunctionComponent<DashboardProps> = (props) => {
       .then(({ data }) => {
         setgamesData(data.games);
       });
-  }, [gamesData]);
+  }, []);
 
   useEffect(() => {
     axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/https://api.boardgameatlas.com/api/user/data?client_id=${CLIENT_ID}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      .get(`http://localhost:8080/users/${id}`)
       .then(({ data }) => {
-        // TODO - set with db data.
-        setSignedInUser(data.user);
+        setSignedInUser(data);
+      })
+      .catch((err) => {
+        console.error(err);
       });
-  }, [user, token]);
+  }, [user, token, id, signedInUser]);
 
   return (
-    <>
+    <UserContext.Provider value={signedInUser}>
       <Header user={signedInUser} />
       <Container className="container" fluid>
+        <h1>Dashboard</h1>
         <ul>
-          {gamesData.length > 0 &&
+          {gamesData.length > 0 ? (
             gamesData.map((game: GameObject) => {
               return <li key={game.id}>{game.name}</li>;
-            })}
+            })
+          ) : (
+            <Spinner animation="border" color="primary" />
+          )}
         </ul>
       </Container>
-    </>
+      <Footer />
+    </UserContext.Provider>
   );
 };
 

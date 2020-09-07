@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = (props) => {
           {isLoading ? (
             <Spinner animation="border" variant="primary" />
           ) : (
-            <span>{user.username}</span>
+            <span>Welcome {user.username}!</span>
           )}
         </Nav>
         <Nav>
