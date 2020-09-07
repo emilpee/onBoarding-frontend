@@ -31,7 +31,7 @@ const App: FunctionComponent<AppProps> = () => {
 
   const handleLogin = (e): void => {
     e.preventDefault();
-    sessionStorage.setItem("loggedIn", true.toString());
+    sessionStorage.setItem("loggedIn", JSON.stringify(true));
   };
 
   return (
