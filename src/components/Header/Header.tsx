@@ -3,12 +3,13 @@ import { User } from "../../interfaces";
 import {
   Navbar,
   Nav,
-  NavDropdown,
   Form,
   Button,
   FormControl,
   Spinner,
+  Dropdown,
 } from "react-bootstrap";
+import { PersonFill } from "react-bootstrap-icons";
 
 interface HeaderProps {
   user: User;
@@ -29,21 +30,22 @@ const Header: FunctionComponent<HeaderProps> = (props) => {
       <Navbar.Brand href="#">onBoarding</Navbar.Brand>
       <Navbar.Collapse className="justify-content-between">
         <Nav>
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Link</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Another link</NavDropdown.Item>
-          </NavDropdown>
+          <Nav.Link href="/games">Browse Games</Nav.Link>
         </Nav>
         <Nav>
           {isLoading ? (
             <Spinner animation="border" variant="primary" />
           ) : (
-            <span>Welcome {user.username}!</span>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                <PersonFill /> {user.username}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Settings</Dropdown.Item>
+                <Dropdown.Item href="#/action-1">Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           )}
         </Nav>
         <Nav>

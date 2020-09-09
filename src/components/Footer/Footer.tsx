@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <Container className="container" fluid>
+    <Container className="container-fluid text-white bg-darkgray">
       <Row className="justify-content-around flex-row w-100" noGutters>
         <Col lg={{ span: 6 }}>
           <p>&copy; {new Date().getFullYear()} onBoarding</p>
