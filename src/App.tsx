@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import "./scss/index.scss";
-import { Login, Dashboard } from "./views";
+import { Login, Dashboard, Games } from "./views";
 
 interface AppProps extends RouteComponentProps {
   handleLogin: () => void;
@@ -43,6 +43,7 @@ const App: FunctionComponent<AppProps> = () => {
           path="/login"
           render={(props) => <Login handleLogin={handleLogin} {...props} />}
         />
+        <Route exact path="/games" component={Games} />
         <ProtectedRoute
           exact
           user={sessionStorage.getItem("loggedIn")}
