@@ -28,6 +28,7 @@ const Header: FunctionComponent = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("loggedIn");
+    localStorage.clear();
   };
 
   return (
