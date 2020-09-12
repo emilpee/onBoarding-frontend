@@ -1,5 +1,6 @@
 export interface User {
   id: string;
   username: string;
-  img?: React.ReactNode;
+  country?: string;
+  age?: number;
 }
