@@ -2,9 +2,7 @@ import React, { useEffect, useState, FunctionComponent } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 import { GameObject } from "../../interfaces";
-// import { UserContext } from "../../context/userContext";
 import { Container, Spinner } from "react-bootstrap";
-import UserContext from "context/userContext";
 
 const Games: FunctionComponent = () => {
   const [gamesData, setgamesData] = useState<GameObject[]>([]);
@@ -20,20 +18,18 @@ const Games: FunctionComponent = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={null}>
-      <Container className="container" fluid>
-        <h1 className="display-4">Browse Games</h1>
-        <ul>
-          {gamesData.length > 0 ? (
-            gamesData.map((game: GameObject) => {
-              return <li key={game.id}>{game.name}</li>;
-            })
-          ) : (
-            <Spinner animation="border" color="primary" />
-          )}
-        </ul>
-      </Container>
-    </UserContext.Provider>
+    <Container className="container" fluid>
+      <h1 className="display-4">Browse Games</h1>
+      <ul>
+        {gamesData.length > 0 ? (
+          gamesData.map((game: GameObject) => {
+            return <li key={game.id}>{game.name}</li>;
+          })
+        ) : (
+          <Spinner animation="border" color="primary" />
+        )}
+      </ul>
+    </Container>
   );
 };
 
