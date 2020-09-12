@@ -1,5 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { User } from "../../interfaces";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
 import {
   Navbar,
   Nav,
@@ -10,20 +14,21 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import { PersonFill } from "react-bootstrap-icons";
+import { UserContext } from "../../context/userContext";
 
-interface HeaderProps {
-  user: User;
-}
-
-const Header: FunctionComponent<HeaderProps> = (props) => {
-  const { user } = props;
+const Header: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     if (user !== null) {
       setIsLoading(false);
     }
   }, [user]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("loggedIn");
+  };
 
   return (
     <Navbar expand="md" sticky="top" bg="light">
@@ -43,7 +48,9 @@ const Header: FunctionComponent<HeaderProps> = (props) => {
 
               <Dropdown.Menu>
                 <Dropdown.Item href="#/action-1">Settings</Dropdown.Item>
-                <Dropdown.Item href="#/action-1">Logout</Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout} href="/login">
+                  Logout
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
