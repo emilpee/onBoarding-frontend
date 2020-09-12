@@ -2,8 +2,9 @@ import React, { useEffect, useState, FunctionComponent } from "react";
 import axios from "axios";
 import { CLIENT_ID } from "../../boardgameatlas.config";
 import { GameObject } from "../../interfaces";
-import { UserContext } from "../../context/userContext";
+// import { UserContext } from "../../context/userContext";
 import { Container, Spinner } from "react-bootstrap";
+import UserContext from "context/userContext";
 
 const Games: FunctionComponent = () => {
   const [gamesData, setgamesData] = useState<GameObject[]>([]);

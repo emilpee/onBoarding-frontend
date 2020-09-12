@@ -1,3 +1,3 @@
 export { Login } from "./Login";
 export { Dashboard } from "./Dashboard";
-export { Games } from "./Games";
+export { GameList } from "./GameList";
