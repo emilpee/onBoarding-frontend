@@ -1,9 +1,11 @@
 export interface GameObject {
   id: string;
+  categories: Category[];
+  description: string;
+  description_preview: string;
+  image_url: string;
   name: string;
   names: string[];
-  description: string;
-  categories: Category[];
   year_published: number;
 }
 
