@@ -12,6 +12,7 @@ const GameCard: FunctionComponent<GameCardProps> = (props) => {
   console.log(game)
   return (
     <Card key={key} style={{ width: '15rem' }}>
+      <Button variant="secondary">+ Add to collection</Button>
       <Card.Img variant="top" src={game.image_url} />
       <Card.Body>
         <Card.Title>{game.name}</Card.Title>

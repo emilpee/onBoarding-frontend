@@ -2,8 +2,9 @@ import React, { useEffect, useState, FunctionComponent } from 'react'
 import axios from 'axios'
 import { CLIENT_ID } from '../../boardgameatlas.config'
 import { GameObject } from '../../interfaces'
-import { CardColumns, CardDeck, Container, Spinner } from 'react-bootstrap'
+import { CardDeck, Container, Spinner } from 'react-bootstrap'
 import { GameCard } from '../../components'
+import './styles.scss'
 
 const Games: FunctionComponent = () => {
   const [gamesData, setgamesData] = useState<GameObject[]>([])
@@ -21,7 +22,7 @@ const Games: FunctionComponent = () => {
   return (
     <Container className="container" fluid>
       <h1 className="display-4">Browse Games</h1>
-      <CardColumns>
+      <CardDeck className="card-container" style={{ width: '100%' }}>
         {gamesData.length > 0 ? (
           gamesData.map((game: GameObject) => {
             return <GameCard game={game} key={game.id} />
@@ -29,7 +30,7 @@ const Games: FunctionComponent = () => {
         ) : (
           <Spinner animation="border" color="primary" />
         )}
-      </CardColumns>
+      </CardDeck>
     </Container>
   )
 }
