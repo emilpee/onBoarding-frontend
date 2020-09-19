@@ -13,8 +13,9 @@ import {
   Spinner,
   Dropdown,
 } from 'react-bootstrap'
-import { PersonFill } from 'react-bootstrap-icons'
 import { UserContext } from '../../context/userContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Header: FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -44,7 +45,9 @@ const Header: FunctionComponent = () => {
           ) : (
             <Dropdown>
               <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                <PersonFill /> {user.username}
+                <span>
+                  <FontAwesomeIcon icon={faUser} /> {user.username}
+                </span>
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
