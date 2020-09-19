@@ -25,7 +25,7 @@ const Games: FunctionComponent = () => {
       <CardDeck className="card-container" style={{ width: '100%' }}>
         {gamesData.length > 0 ? (
           gamesData.map((game: GameObject) => {
-            return <GameCard game={game} key={game.id} />
+            return <GameCard game={game} cardKey={game.id} key={game.id} />
           })
         ) : (
           <Spinner animation="border" color="primary" />
